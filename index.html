@@ -6,18 +6,106 @@
     <title>PWA-Miniuno, eine Progressive Web App mit dem minimalen Hallo-Welt.</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📲</text></svg>" />
     <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="/icons/apple-icon-180.png">
+    <link rel="apple-touch-startup-image" href="/icons/apple-splash-1125-2436.jpg">
+    <link rel="apple-touch-startup-image" href="/icons/apple-splash-640-1136.jpg">
+    <style>
+        #installiertInfo {
+        border: 1px solid #0051a8; 
+        padding: 10px;
+        margin-top: 10px;
+        background-color: #e9f7ff; 
+        color: #333; 
+        border-radius: 5px; 
+        }        
+    </style>
 
 </head>
 <body>
     <h1>PWA-Miniuno</h1>
 
-    <p>Eine "Hallo-Welt-PWA", also eine Progressive Web App mit praktisch dem Minimum.</p>
+    <p>Eine "Hallo-Welt-PWA", also eine Progressive Web App mit praktisch dem Minimum. <br>
+    Mit einem Installationsbutton. Theoretisch sichtbar. II</p>
     <p>#codingtraining</p>
 
+
+
+
+    <button id="installButton">Mini-App installieren</button>
+
+    <!-- InfoBox für Rückmeldungen -->
+    <div id="infoBox" style="border: 1px solid #ccc; padding: 10px; margin-top: 20px; display: none;">
+    <!-- Hier erscheinen Infos zur Installation -->
+    </div>  
+
     <script>
+        // Registrierung vom Service-Worker für Offline-Nutzung und Caching
+        // navigator ist Browser-Javascript-Buildin (globales Objekt, braucht nicht deklariert zu werden; navigator.serviceWorker.*)
         if ('serviceWorker' in navigator) {
+            // wird ausgeführt, wenn Seite vollständig geladen, mitsamt Bilder und Scripts ('load')
+            window.addEventListener('load', () => {
+            // Service-Worker wird registriert    
             navigator.serviceWorker.register('/service-worker.js')
+            // Nach Registrierung Promise, aufgelöst wenn Registrierung erfolgreich und damit Registrierungsdaten zur Verfügung stehen
+            .then((registration) => {
+                console.log('Service Worker registriert mit dem Scope:', registration.scope);
+                }, (err) => {
+                console.log('Service Worker Registrierung fehlgeschlagen:', err);
+                });
+            });
         }
     </script>
+    
+    <script>
+    // Event-Handler für die Installation. 
+    // Referenz auf Event, das später (deferred) verwendet werden kann, um eigentliche Installation auszulösen (Prompt)
+    let deferredPrompt;  
+
+    // InfoBox für Nachrichten
+    const infoBox = document.getElementById('infoBox');
+
+    // Überprüfen, ob das beforeinstallprompt-Event unterstützt wird
+    // Event-Listener für das "beforeinstallprompt"-Event, das ausgelöst wird,
+    // wenn die PWA die Voraussetzungen für die Installation erfüllt,
+    // sofern vom Browser unterstützt, sonst auffangen (#Browservielfalt respektieren)
+    window.addEventListener('beforeinstallprompt', (event) => {
+        // Das Standard-Prompt-Popup unterdrücken
+        event.preventDefault();
+        // Den Event in der Variable speichern, um ihn später (deferred) verwenden zu können.
+        deferredPrompt = event;
+    });
+        
+
+    const installButton = document.getElementById('installButton'); // DOM-Button-Element 
+  
+    // Event-Listener lauscht auf Button-Klick  
+    installButton.addEventListener('click', async () => {
+
+        if (deferredPrompt) {
+
+            // Zeigt nach Klick auf Installationsbutton direkt das Browser-Installationsdialogfenster an
+                deferredPrompt.prompt(); 
+
+                const { outcome } = await deferredPrompt.userChoice; // wartet auf die Entscheidung des Benutzers
+                if (outcome === 'accepted') {
+                    console.log('Benutzer hat die Installation akzeptiert');
+                    // Zeige die Erfolgsnachricht in der InfoBox
+                    infoBox.style.display = 'block';
+                    infoBox.innerHTML = '<strong>Erfolg:</strong> Die Anwendung wurde als Web-App installiert!';
+                } else {
+                    console.log('Benutzer hat die Installation abgelehnt');
+                    infoBox.style.display = 'block';
+                    infoBox.innerHTML = '<strong>Info:</strong> Benutzer hat die Installation abgelehnt.';
+                }
+                deferredPrompt = null; // Zurücksetzen
+            } else {
+                // Wenn kein deferredPrompt vorhanden ist, Nachricht anzeigen
+                infoBox.style.display = 'block';
+                infoBox.innerHTML = '<strong>Info:</strong> Die Anwendung kann momentan nicht installiert werden.';
+            }
+        });
+  
+  </script>
+  
 </body>
 </html>
