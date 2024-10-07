@@ -1,7 +1,11 @@
 {
-    "name" : "PWA-Miniuno als minimale Hallo-Welt-Progressive-Web-App",
+    "name" : "Hallo-Welt-Progressive-Web-App Miniuno",
     "shortname" : "PWA-Miniuno",
-    "start_url" : "/?home=true",
+    "description" : "PWA-Miniuno als minimale Hallo-Welt-Progressive-Web-App mit Installationsverfahren",
+
+    "scope": "/pwa-miniuno/",
+    "start_url" : "/pwa-miniuno/",
+    
     "icons" : [
         {
           "src": "icons/manifest-icon-192x192.maskable.png",
@@ -29,7 +33,7 @@
         }
       ],
     "theme_color" : "#041032",
-    "background_color": "#FFFFFF",
+    "background_color": "#faf7f5",
     "display": "fullscreen",
     "orientation": "portrait"
 }

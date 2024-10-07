@@ -1,11 +1,12 @@
 # pwa-miniuno
 
 Eine "Hallo-Welt-PWA", also eine Progressive Web App mit praktisch dem Minimum.
+Mit Installationsbutton.
 
  #codingtraining
 
 
-🌐 https://lernya.github.io/pwa-miniuno/
+🌐 https://lernya.github.io/pwa-miniuno/ <br />
 🗄️ https://github.com/Lernya/pwa-miniuno
 
 

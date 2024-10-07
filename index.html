@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PWA-Miniuno, eine Progressive Web App mit dem minimalen Hallo-Welt.</title>
+    <link rel="canonical" href="https://lernya.github.io/pwa-miniuno/" />
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📲</text></svg>" />
-    <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="icons/apple-icon-180.png">
-    <link rel="apple-touch-startup-image" href="icons/apple-splash-1125-2436.jpg">
-    <link rel="apple-touch-startup-image" href="icons/apple-splash-640-1136.jpg">
+    <link rel="manifest" href="/pwa-miniuno/manifest.json">
+    <link rel="apple-touch-icon" href="/pwa-miniuno/icons/apple-icon-180.png">
+    <link rel="apple-touch-startup-image" href="/pwa-miniuno/icons/apple-splash-1125-2436.jpg">
+    <link rel="apple-touch-startup-image" href="/pwa-miniuno/icons/apple-splash-640-1136.jpg">
     <style>
         #installiertInfo {
         border: 1px solid #0051a8; 
@@ -45,7 +46,10 @@
             // wird ausgeführt, wenn Seite vollständig geladen, mitsamt Bilder und Scripts ('load')
             window.addEventListener('load', () => {
             // Service-Worker wird registriert    
-            navigator.serviceWorker.register('/service-worker.js')
+            // So funktioniert es mit Chromium, aber nicht Firefox
+            // navigator.serviceWorker.register('/service-worker.js')
+            // Daher neuer Versuch:
+            navigator.serviceWorker.register('/pwa-miniuno/service-worker.js', {scope: '/pwa-miniuno/'})
             // Nach Registrierung Promise, aufgelöst wenn Registrierung erfolgreich und damit Registrierungsdaten zur Verfügung stehen
             .then((registration) => {
                 console.log('Service Worker registriert mit dem Scope:', registration.scope);
