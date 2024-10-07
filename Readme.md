@@ -1,7 +1,9 @@
 # pwa-miniuno
 
-Eine "Hallo-Welt-PWA", also eine Progressive Web App mit praktisch dem Minimum.
+Eine "Hallo-Welt-PWA", also eine Progressive Web App mit praktisch dem Minimum.<br />
 Mit Installationsbutton.
+
+Läuft via Chromium (Chrome), lässt sich leider noch nicht via Firefox installieren.
 
  #codingtraining
 
